@@ -1,4 +1,4 @@
-ONCEPTS
+CONCEPTS
 
 For this project, we expect you to look at this concept:
 - [Python programming](https://alx-intranet.hbtn.io/concepts/550)
