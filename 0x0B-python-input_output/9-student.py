@@ -1,17 +1,17 @@
 #!/usr/bin/python3
-"""Class defination of student"""
+""" Module that defines the class Student
+"""
 
 
 class Student:
-    """defines a student class"""
+    """ Class to create student instances """
+
     def __init__(self, first_name, last_name, age):
-        """Initializes instance data"""
+        """ Special method to initialize """
         self.first_name = first_name
         self.last_name = last_name
         self.age = age
 
     def to_json(self):
-        """
-            Retrieves the dictionary representationof  student
-        """
-        return self.__dict__
+        """ Method that returns directory description """
+        return self.__dict__.copy()

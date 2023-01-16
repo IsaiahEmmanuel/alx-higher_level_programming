@@ -1,16 +1,30 @@
 #!/usr/bin/python3
-"""Contains a single function that draws a pascal triangle"""
-
-
 def pascal_triangle(n):
-    """creates a list of pascal triangle"""
-    my_list = [[0 for j in range(i + 1)] for i in range(n)]
+    """ Function that returns the pascal triangle
+
+    Args:
+        n: number of lines
+
+    Returns:
+        matrix: a matrix with the pascal triangle
+
+    """
+
+    matrix = []
+    prev = []
+
     for i in range(n):
-        for j in range(i + 1):
-            if j == 0:
-                my_list[i][j] = 1
-            elif j == i:
-                my_list[i][j] = 1
+        res_list = []
+        p1 = -1
+        p2 = 0
+        for j in range(len(prev) + 1):
+            if p1 == -1 or p2 == len(prev):
+                res_list += [1]
             else:
-                my_list[i][j] = my_list[i-1][j] + my_list[i-1][j-1]
-    return my_list
+                res_list += [prev[p1] + prev[p2]]
+            p1 += 1
+            p2 += 1
+        matrix.append(res_list)
+        prev = res_list[:]
+
+    return matrix

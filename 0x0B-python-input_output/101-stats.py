@@ -1,41 +1,57 @@
 #!/usr/bin/python3
+""" Module to print status code """
+import sys
 
-"""
-Module that reads stdin line by line and computes metrics
-"""
 
-if __name__ == '__main__':
+class Magic:
+    """ Class to generates instances with dict and size"""
+    def __init__(self):
+        """ Init method """
+        self.dic = {}
+        self.size = 0
 
-    import sys
+    def init_dic(self):
+        """ Initialize dict """
+        self.dic['200'] = 0
+        self.dic['301'] = 0
+        self.dic['400'] = 0
+        self.dic['401'] = 0
+        self.dic['403'] = 0
+        self.dic['404'] = 0
+        self.dic['405'] = 0
+        self.dic['500'] = 0
 
-    file_size = 0
-    possible_codes = ["200", "301", "400", "401", "403", "404", "405", "500"]
-    stats = {i: 0 for i in possible_codes}
-    counter = 0
+    def add_status_code(self, status):
+        """ add repeated number to the status code """
+        if status in self.dic:
+            self.dic[status] += 1
 
-    def print_stats(stats: dict, file_size: int) -> None:
-        print("File size: {:d}".format(file_size))
-        for i, v in sorted(stats.items()):
-            if v:
-                print("{}: {}".format(i, v))
+    def print_info(self, sig=0, frame=0):
+        """ print status code """
+        print("File size: {:d}".format(self.size))
+        for key in sorted(self.dic.keys()):
+            if self.dic[key] is not 0:
+                print("{}: {:d}".format(key, self.dic[key]))
+
+
+if __name__ == "__main__":
+    magic = Magic()
+    magic.init_dic()
+    nlines = 0
 
     try:
         for line in sys.stdin:
-            counter += 1
-            data = line.split()
+            if nlines % 10 == 0 and nlines is not 0:
+                magic.print_info()
+
             try:
-                status_code = data[-2]
-                if status_code in stats:
-                    stats[status_code] += 1
-            except BaseException:
+                list_line = [x for x in line.split(" ") if x.strip()]
+                magic.add_status_code(list_line[-2])
+                magic.size += int(list_line[-1].strip("\n"))
+            except:
                 pass
-            try:
-                file_size += int(data[-1])
-            except BaseException:
-                pass
-            if counter % 10 == 0:
-                print_stats(stats, file_size)
-        print_stats(stats, file_size)
+            nlines += 1
     except KeyboardInterrupt:
-        print_stats(stats, file_size)
+        magic.print_info()
         raise
+    magic.print_info()
